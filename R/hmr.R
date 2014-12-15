@@ -42,11 +42,11 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
   setwd(f)
   save(list=ls(envir=e, all.names=TRUE), envir=e, file="stream.RData")
   map.cmd <- if (isTRUE(persistent)) {
-     paste0("-mapper \"",R," --slave --vanilla -e 'iotools:::run.ro()'\"")
+     paste0("-mapper \"",R," --slave --vanilla -e 'hmr:::run.ro()'\"")
   } else {
-    if (identical(map, identity)) "-mapper cat" else if (is.character(map)) paste("-mapper", shQuote(map[1L])) else paste0("-mapper \"",R," --slave --vanilla -e 'iotools:::run.map()'\"")
+    if (identical(map, identity)) "-mapper cat" else if (is.character(map)) paste("-mapper", shQuote(map[1L])) else paste0("-mapper \"",R," --slave --vanilla -e 'hmr:::run.map()'\"")
   }
-  reduce.cmd <- if (identical(reduce, identity)) "" else if (is.character(reduce)) paste("-reducer", shQuote(reduce[1L])) else paste0("-reducer \"",R," --slave --vanilla -e 'iotools:::run.reduce()'\"")
+  reduce.cmd <- if (identical(reduce, identity)) "" else if (is.character(reduce)) paste("-reducer", shQuote(reduce[1L])) else paste0("-reducer \"",R," --slave --vanilla -e 'hmr:::run.reduce()'\"")
   extraD <- if (missing(reducers)) "" else paste0("-D mapred.reduce.tasks=", as.integer(reducers))
   if (!missing(hadoop.opt) && length(hadoop.opt)) {
     hon <- names(hadoop.opt)
@@ -105,7 +105,7 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
       stop("remote must be an RserveConnection or a string denoting a server to connect to")
     l <- list(stream=readBin("stream.RData", raw(), file.info("stream.RData")$size),
               hargs=hargs, hcfg=cfg)
-    RSclient::RS.eval(remote, as.call(list(quote(iotools:::.remote.cmd), l)), wait=wait, lazy=FALSE)
+    RSclient::RS.eval(remote, as.call(list(quote(hmr:::.remote.cmd), l)), wait=wait, lazy=FALSE)
   }
   output
 }
