@@ -1,0 +1,11 @@
+Package: hmr
+Version: 1.0-5
+Title: High-performance Hadoop Map/Reduce R interface based on iotools
+Author: Simon Urbanek <Simon.Urbanek@r-project.org>, Taylor Arnold <taylor.arnold@acm.org>
+Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
+Depends: R (>= 2.9.0)
+Imports: iotools
+Suggests: RSclient, rjson
+Description: High-performance Hadoop Map/Reduce R interface based on iotools
+License: GPL-2 | GPL-3
+URL: http://www.rforge.net/hmr
