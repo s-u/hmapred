@@ -4,6 +4,8 @@
 \alias{hinput}
 \alias{hpath}
 \alias{c.hinput}
+\alias{open.HDFSpath}
+\alias{print.HDFSpath}
 \title{
   Experimental Hadoop chunk-processing code
 }
