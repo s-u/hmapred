@@ -1,10 +1,5 @@
 hpath <- function(path) structure(path, class="HDFSpath")
 
-.default.formatter <- function(x) {
-  y <- mstrsplit(x, "|", "\t")
-  if (ncol(y) == 1L) y[, 1] else y
-}
-
 hinput <- function(path, formatter=.default.formatter)
   structure(path, class=c("hinput", "HDFSpath"), formatter=formatter)
 
