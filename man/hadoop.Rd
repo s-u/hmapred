@@ -48,7 +48,7 @@ hinput(path, formatter = .default.formatter)
   \item{hadoop.conf}{optional string, path to the hadoop configuration
     directory for submission}
   \item{hadoop.opt}{additional Java options to pass to the job - named
-    character vectors are passed as \code{-D<name>=<value}, unnamed
+    character vectors are passed as \code{-D<name>=<value>}, unnamed
     vectors are collapsed. Note: this is only a transitional interface
     to work around deficiencies in the job generation and should only be
     used as a last measure since the semantics is implementation
