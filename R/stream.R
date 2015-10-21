@@ -14,9 +14,12 @@ run.chunked <- function(FUN, formatter=mstrsplit, key.sep=NULL) {
   if (!is.null(.GlobalEnv$load.packages)) try(for(i in .GlobalEnv$load.packages) require(i, quietly=TRUE, character.only=TRUE), silent=TRUE)
   input <- file("stdin", "rb")
   output <- stdout()
-  reader <- chunk.reader(input, sep=key.sep)
   chunk.size <- 33554432L
+  max.line <- 131072L
   if (is.numeric(.GlobalEnv$chunk.size)) chunk.size <- .GlobalEnv$chunk.size
+  if (is.numeric(.GlobalEnv$max.line)) max.line <- .GlobalEnv$max.line
+  if (max.line > chunk.size) chunk.size <- as.integer(max.line * 1.2)
+  reader <- chunk.reader(input, sep=key.sep, max.line=max.line)
   while (TRUE) {
     chunk <- read.chunk(reader, chunk.size)
     if (!length(chunk)) break
