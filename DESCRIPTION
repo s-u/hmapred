@@ -1,5 +1,5 @@
 Package: hmr
-Version: 1.0-5
+Version: 1.0-6
 Title: High-performance Hadoop Map/Reduce R interface based on iotools
 Author: Simon Urbanek <Simon.Urbanek@r-project.org>, Taylor Arnold <taylor.arnold@acm.org>
 Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
