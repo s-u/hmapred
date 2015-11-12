@@ -11,7 +11,10 @@ run.chunked <- function(FUN, formatter=mstrsplit, key.sep=NULL) {
     return(invisible(TRUE))
   }
 
-  if (!is.null(.GlobalEnv$load.packages)) try(for(i in .GlobalEnv$load.packages) require(i, quietly=TRUE, character.only=TRUE), silent=TRUE)
+  if (!is.null(.GlobalEnv$prefix.library.path))
+    .libPaths(c(as.character(.GlobalEnv$prefix.library.path), .libPaths()))
+  if (!is.null(.GlobalEnv$load.packages))
+    try(for(i in .GlobalEnv$load.packages) require(i, quietly=TRUE, character.only=TRUE), silent=TRUE)
   input <- file("stdin", "rb")
   output <- stdout()
   chunk.size <- 33554432L
