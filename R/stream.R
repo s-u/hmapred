@@ -26,9 +26,11 @@ run.chunked <- function(FUN, formatter=mstrsplit, key.sep=NULL) {
   while (TRUE) {
     chunk <- read.chunk(reader, chunk.size)
     if (!length(chunk)) break
-    res <- as.output(FUN(formatter(chunk)))
-    if (is.raw(res)) res <- rawToChar(res)
-    writeLines(res, output)
+    res <- FUN(formatter(chunk))
+    if (length(res)) {
+      if (!is.raw(res)) res <- as.output(res)
+      if (is.raw(res)) writeLines(rawToChar(res), output, sep='') else writeLines(res, output)
+    }
   }
   invisible(TRUE)
 }
