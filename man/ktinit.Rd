@@ -41,6 +41,6 @@ ktutil:  }\kbd{wkt .keytab
 }
 }
 \examples{
-  (tryCatch(ktinit(), error=function(e) cat("FAIELD:", e)))
+  (tryCatch(ktinit(), error=function(e) cat("FAILED:", e$message)))
 }
 \keyword{manip}
