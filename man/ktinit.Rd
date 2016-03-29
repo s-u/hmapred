@@ -4,16 +4,21 @@
   Initialize Kerberos using a keytab file
 }
 \description{
-  \code{ktinit} obtains a Kerberos token using a keytab file by
+  \code{ktinit} obtains a Kerberos ticket using a keytab file by
   issuing the corresponding \code{kinit} shell command.
 }
 \usage{
-ktinit(keytab = "~/.keytab", user = Sys.getenv("USER"), realm = getOption("kerberos.realm"))
+ktinit(keytab = "~/.keytab", user = Sys.getenv("USER"),
+       realm = getOption("kerberos.realm"), force=FALSE)
 }
 \arguments{
   \item{keytab}{loaction of the Kerberos keytab file}
   \item{user}{name of the user}
   \item{realm}{Kerberos realm}
+  \item{force}{logical, if \code{FALSE} then \code{ktinit()} first
+  use \code{klist} to see if there are tickets in the cache and will
+  not authenticate in that case. \code{TRUE} always forces an
+  authentication.}
 }
 \details{
   This is essentially a front-end to
@@ -28,9 +33,9 @@ ktinit(keytab = "~/.keytab", user = Sys.getenv("USER"), realm = getOption("kerbe
 Simon Urbanek
 }
 \note{
- Currently requires \code{kinit} on the \code{PATH}.
+ Currently requires \code{kinit} and \code{klist} on the \code{PATH}.
 
- The user should createa a keytab, e.g. by running the following in
+ The user should create a keytab, e.g. by running the following in
  their home:
 
 \preformatted{$ ktutil
