@@ -18,7 +18,8 @@
 hmr(input, output, map = identity, reduce = identity, job.name,
     aux, formatter, packages = loadedNamespaces(), reducers,
     remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R",
-    verbose = TRUE, persistent = FALSE, overwrite = FALSE)
+    verbose = TRUE, persistent = FALSE, overwrite = FALSE,
+    use.ktinit = !is.null(getOption("kerberos.realm")))
 hpath(path)
 hinput(path, formatter = .default.formatter)
 }
@@ -61,6 +62,8 @@ hinput(path, formatter = .default.formatter)
     instead of regular R. The results in that case are ROctopus URLs.}
   \item{overwrite}{logical, if \code{TRUE} then the output directory
     is first deleted before the job is started.}
+  \item{use.ktinit}{logical, if \code{TRUE} automatically invokes
+  \code{\link{ktinit}} before running any Hadoop commands.}
   \item{path}{HDFS path}
 }
 \details{
