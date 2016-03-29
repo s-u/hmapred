@@ -1,11 +1,11 @@
 hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, formatter, packages=loadedNamespaces(), reducers,
                 remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R", verbose=TRUE, persistent=FALSE, overwrite=FALSE,
-                use.ktinit = !is.null(getOption("kerberos.realm"))) {
+                use.ktinit = !is.null(getOption("hmr.kerberos.realm"))) {
   .rn <- function(n) paste(sprintf("%04x", as.integer(runif(n, 0, 65536))), collapse='')
   if (missing(output)) output <- hpath(sprintf("/tmp/io-hmr-temp-%d-%s", Sys.getpid(), .rn(4)))
   if (missing(job.name)) job.name <- sprintf("RCloud:iotools:hmr-%s", .rn(2))
   if (!inherits(input, "HDFSpath")) stop("Sorry, you have to have the input in HDFS for now")
-  if (isTRUE(use.ktinit)) ktinit()
+  if (isTRUE(use.ktinit)) ktinit(realm=getOption("hmr.kerberos.realm"))
   map.formatter <- NULL
   red.formatter <- NULL
   if (missing(formatter) && inherits(input, "hinput")) map.formatter <- attr(input, "formatter")

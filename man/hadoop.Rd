@@ -19,7 +19,7 @@ hmr(input, output, map = identity, reduce = identity, job.name,
     aux, formatter, packages = loadedNamespaces(), reducers,
     remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R",
     verbose = TRUE, persistent = FALSE, overwrite = FALSE,
-    use.ktinit = !is.null(getOption("kerberos.realm")))
+    use.ktinit = !is.null(getOption("hmr.kerberos.realm")))
 hpath(path)
 hinput(path, formatter = .default.formatter)
 }
@@ -63,7 +63,8 @@ hinput(path, formatter = .default.formatter)
   \item{overwrite}{logical, if \code{TRUE} then the output directory
     is first deleted before the job is started.}
   \item{use.ktinit}{logical, if \code{TRUE} automatically invokes
-  \code{\link{ktinit}} before running any Hadoop commands.}
+    \code{\link{ktinit}(realm=getOption("hmr.kerberos.realm"))} before
+    running any Hadoop commands.}
   \item{path}{HDFS path}
 }
 \details{
