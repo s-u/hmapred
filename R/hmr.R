@@ -1,5 +1,5 @@
 hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, formatter, packages=loadedNamespaces(), reducers,
-                remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R", verbose=TRUE, persistent=FALSE) {
+                remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R", verbose=TRUE, persistent=FALSE, overwrite=FALSE) {
   .rn <- function(n) paste(sprintf("%04x", as.integer(runif(n, 0, 65536))), collapse='')
   if (missing(output)) output <- hpath(sprintf("/tmp/io-hmr-temp-%d-%s", Sys.getpid(), .rn(4)))
   if (missing(job.name)) job.name <- sprintf("RCloud:iotools:hmr-%s", .rn(2))
@@ -66,6 +66,8 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
   cfg <- ""
   if (!missing(hadoop.conf)) cfg <- paste("--config", shQuote(hadoop.conf)[1L])
   if (missing(remote)) {
+    ## FIXME: to support Hadoop 1 it woudl have to be rmr?
+    if (overwrite) system(paste(shQuote(hcmd), "fs", "-rm", "-r", shQuote(output)), ignore.stdout = TRUE, ignore.stderr = FALSE)
     h0 <- paste(shQuote(hcmd), cfg, "jar", shQuote(sj[1L]))
     cmd <- paste(h0, hargs)
     system(cmd, wait=wait, ignore.stdout = !verbose, ignore.stderr = !verbose)

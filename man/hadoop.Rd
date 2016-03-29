@@ -18,7 +18,7 @@
 hmr(input, output, map = identity, reduce = identity, job.name,
     aux, formatter, packages = loadedNamespaces(), reducers,
     remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R",
-    verbose = TRUE, persistent = FALSE)
+    verbose = TRUE, persistent = FALSE, overwrite = FALSE)
 hpath(path)
 hinput(path, formatter = .default.formatter)
 }
@@ -59,6 +59,8 @@ hinput(path, formatter = .default.formatter)
   \item{persistent}{logical, if \code{TRUE} then an ROctopus job is
     started and the mapper is executed in "hot" ROctopus instances
     instead of regular R. The results in that case are ROctopus URLs.}
+  \item{overwrite}{logical, if \code{TRUE} then the output directory
+    is first deleted before the job is started.}
   \item{path}{HDFS path}
 }
 \details{
