@@ -62,8 +62,8 @@ hinput(path, formatter = .default.formatter)
     instead of regular R. The results in that case are ROctopus URLs.}
   \item{overwrite}{logical, if \code{TRUE} then the output directory
     is first deleted before the job is started.}
-  \item{use.ktinit}{logical, if \code{TRUE} automatically invokes
-    \code{\link{ktinit}(realm=getOption("hmr.kerberos.realm"))} before
+  \item{use.kinit}{logical, if \code{TRUE} automatically invokes
+    \code{\link{kinit}(realm=getOption("hmr.kerberos.realm"))} before
     running any Hadoop commands.}
   \item{path}{HDFS path}
 }
