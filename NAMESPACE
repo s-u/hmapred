@@ -1,2 +1,2 @@
 import(iotools)
-export(.default.formatter, hmr, hpath, hinput, c.hinput, open.HDFSpath, print.HDFSpath, ktinit)
+export(.default.formatter, hmr, hpath, hinput, c.hinput, open.HDFSpath, print.HDFSpath)
