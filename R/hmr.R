@@ -6,7 +6,7 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
   if (missing(job.name)) job.name <- sprintf("RCloud:iotools:hmr-%s", .rn(2))
   if (!inherits(input, "HDFSpath")) stop("Sorry, you have to have the input in HDFS for now")
   ## only use kinit if use.kinit and all tickets expired
-  if (isTRUE(use.kinit) && all(krb5::klist()$expired) krb5::kinit(realm=getOption("hmr.kerberos.realm"))
+  if (isTRUE(use.kinit) && all(krb5::klist()$expired)) krb5::kinit(realm=getOption("hmr.kerberos.realm"))
   map.formatter <- NULL
   red.formatter <- NULL
   if (missing(formatter) && inherits(input, "hinput")) map.formatter <- attr(input, "formatter")
