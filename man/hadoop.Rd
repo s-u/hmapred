@@ -19,7 +19,7 @@ hmr(input, output, map = identity, reduce = identity, job.name,
     aux, formatter, packages = loadedNamespaces(), reducers,
     remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R",
     verbose = TRUE, persistent = FALSE, overwrite = FALSE,
-    use.ktinit = !is.null(getOption("hmr.kerberos.realm")))
+    use.kinit = !is.null(getOption("hmr.kerberos.realm")))
 hpath(path)
 hinput(path, formatter = .default.formatter)
 }
