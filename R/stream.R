@@ -36,5 +36,4 @@ run.chunked <- function(FUN, formatter=mstrsplit, key.sep=NULL) {
 }
 
 run.map <- function() run.chunked(.GlobalEnv$map, .GlobalEnv$map.formatter)
-run.reduce <- function() run.chunked(.GlobalEnv$reduce, .GlobalEnv$red.formatter, "\t")
-
+run.reduce <- function() run.chunked(.GlobalEnv$reduce, .GlobalEnv$red.formatter, if (exists("reduce.keysep", .GlobalEnv)) .GlobalEnv$reduce.keysep else "\t")
