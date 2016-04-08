@@ -16,6 +16,8 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
       red.formatter <- formatter$reduce
     } else map.formatter <- red.formatter <- formatter
   }
+  ## this could be true with formatter=list(reduce=...) in which case we still use the one from input
+  if (is.null(map.formatter) && inherits(input, "hinput")) map.formatter <- attr(input, "formatter")
   if (is.null(map.formatter)) map.formatter <- .default.formatter
   if (is.null(red.formatter)) red.formatter <- .default.formatter
 
