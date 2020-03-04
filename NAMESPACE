@@ -1,4 +1,5 @@
 import(iotools)
+importFrom("stats", "runif")
 export(.default.formatter, hmr, hpath, hinput, c.hinput, open.HDFSpath, print.HDFSpath)
 S3method(c, hinput)
 S3method(open, HDFSpath)
