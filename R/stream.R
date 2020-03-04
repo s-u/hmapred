@@ -6,8 +6,7 @@ run.chunked <- function(FUN, formatter=mstrsplit, key.sep=NULL) {
   if (is.null(FUN) || identical(FUN, identity)) { ## pass-through, no chunking, just behave like `cat`
     input <- file("stdin", "rb")
     N <- 16777216L ## 16Mb
-    while (length(buf <- readBin(input, raw(), N))) writeBIN(buf, FALSE) 
-    writeBIN(raw(), TRUE) ## just a flush
+    while (length(buf <- readBin(input, raw(), N))) as.output(buf, con=iotools.stdout)
     return(invisible(TRUE))
   }
 
