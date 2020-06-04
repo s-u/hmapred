@@ -60,7 +60,7 @@ hinput(path, formatter = .default.formatter)
   \item{overwrite}{logical, if \code{TRUE} then the output directory
     is first deleted before the job is started.}
   \item{use.kinit}{logical, if \code{TRUE} automatically invokes
-    \code{\link{kinit}(realm=getOption("hmr.kerberos.realm"))} before
+    \code{\link[krb5]{kinit}(realm=getOption("hmr.kerberos.realm"))} before
     running any Hadoop commands.}
   \item{path}{HDFS path}
 }
