@@ -21,7 +21,7 @@
         if (length(hp <- ver[grep("was run using .*share/hadoop/common/hadoop-common-([^/]+)\\.jar", ver)])) {
             hp <- gsub(".*was run using (.*)share/hadoop/common/hadoop-common-([^/]+)\\.jar", "\\1", hp)
             hcmd <- file.path(hp, "bin", "hadoop")
-        }
+        } else warning("HADOOP_HOME is not set and calling `hadoop` is not working.")
         if (file.exists(hcmd)) {
             message("HADOOP_HOME not set, but detected from hadoop on the PATH as ", hp, "\nConsider setting HADOOP_HOME or using /usr/lib/hadoop symlink for faster start-up.")
             hh <- hp
