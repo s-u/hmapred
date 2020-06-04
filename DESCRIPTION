@@ -1,4 +1,4 @@
-Package: hmr
+Package: hmapred
 Version: 1.2-0
 Title: High-Performance Hadoop Map/Reduce R Interface
 Author: Simon Urbanek <Simon.Urbanek@r-project.org>, Taylor Arnold <taylor.arnold@acm.org>
@@ -11,4 +11,4 @@ Description: High-performance Hadoop Map/Reduce R interface based on
 	     map/reduce jobs with a single function and provides an
 	     intuitive interface to write distributed code in R.
 License: GPL-2 | GPL-3
-URL: http://www.rforge.net/hmr
+URL: http://www.rforge.net/hmapred
