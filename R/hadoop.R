@@ -12,7 +12,7 @@
 
     if (!file.exists(hcmd)) {
         ## try calling `hadoop`
-        ver <- system(paste(shQuote(hcmd), "version"), intern=TRUE)
+        ver <- system("hadoop version", intern=TRUE)
 
         ## this really works only for hadoop 2+
         ## in hadoop 1 the jar file was in the root of the installation
