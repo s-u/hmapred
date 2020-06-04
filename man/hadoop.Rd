@@ -17,7 +17,7 @@
 \usage{
 hmr(input, output, map = identity, reduce = identity, job.name,
     aux, formatter, packages = loadedNamespaces(), reducers,
-    remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R",
+    wait=TRUE, hadoop.conf, hadoop.opt, R="R",
     verbose = TRUE, persistent = FALSE, overwrite = FALSE,
     use.kinit = !is.null(getOption("hmr.kerberos.realm")))
 hpath(path)
@@ -40,9 +40,6 @@ hinput(path, formatter = .default.formatter)
     jobs in the combine step. It is a hint in the sense that any number
     greater than one implies independence of the chunks in the combine
     step. Default is to not assume independence.}
-  \item{remote}{optional, active Rserve connection or a host name. IF
-    specified, the job is submitted remotely by using HAdoop installed
-    on the target machine (experimental)}
   \item{wait}{logical, if \code{TRUE} then the command returns after the
     job finished, otherwise the command returns after the job has been
     submitted}

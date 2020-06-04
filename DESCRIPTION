@@ -5,7 +5,7 @@ Author: Simon Urbanek <Simon.Urbanek@r-project.org>, Taylor Arnold <taylor.arnol
 Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
 Depends: R (>= 2.9.0)
 Imports: iotools (>= 0.3-0)
-Suggests: RSclient, rjson, krb5
+Suggests: krb5
 Description: High-performance Hadoop Map/Reduce R interface based on
 	     iotools. Enables R users to create and submit Hadoop
 	     map/reduce jobs with a single function and provides an

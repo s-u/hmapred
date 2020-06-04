@@ -1,5 +1,5 @@
 hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, formatter, packages=loadedNamespaces(), reducers,
-                remote, wait=TRUE, hadoop.conf, hadoop.opt, R="R", verbose=TRUE, persistent=FALSE, overwrite=FALSE,
+                wait=TRUE, hadoop.conf, hadoop.opt, R="R", verbose=TRUE, persistent=FALSE, overwrite=FALSE,
                 use.kinit = !is.null(getOption("hmr.kerberos.realm"))) {
   .rn <- function(n) paste(sprintf("%04x", as.integer(runif(n, 0, 65536))), collapse='')
   if (missing(output)) output <- hpath(sprintf("/tmp/io-hmr-temp-%d-%s", Sys.getpid(), .rn(4)))
@@ -21,14 +21,12 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
   if (is.null(map.formatter)) map.formatter <- .default.formatter
   if (is.null(red.formatter)) red.formatter <- .default.formatter
 
-  if (missing(remote)) {
-    h <- .hadoop.detect()
-    hh <- h$hh
-    hcmd <- h$hcmd
-    sj <- h$sj
-    if (!length(sj))
-      stop("Cannot find streaming JAR - set HADOOP_STREAMING_JAR or make sure you have a complete Hadoop installation")
-  }
+  h <- .hadoop.detect()
+  hh <- h$hh
+  hcmd <- h$hcmd
+  sj <- h$sj
+  if (!length(sj))
+     stop("Cannot find streaming JAR - set HADOOP_STREAMING_JAR or make sure you have a complete Hadoop installation")
 
   e <- new.env(parent=emptyenv())
   if (!missing(aux)) {
@@ -70,68 +68,12 @@ hmr <- function(input, output, map=identity, reduce=identity, job.name, aux, for
                map.cmd, reduce.cmd)
   cfg <- ""
   if (!missing(hadoop.conf)) cfg <- paste("--config", shQuote(hadoop.conf)[1L])
-  if (missing(remote)) {
-    ## FIXME: to support Hadoop 1 it woudl have to be rmr?
-    if (overwrite) system(paste(shQuote(hcmd), "fs", "-rm", "-r", shQuote(output)), ignore.stdout = TRUE, ignore.stderr = FALSE)
-    h0 <- paste(shQuote(hcmd), cfg, "jar", shQuote(sj[1L]))
-    cmd <- paste(h0, hargs)
-    system(cmd, wait=wait, ignore.stdout = !verbose, ignore.stderr = !verbose)
-  } else {
-    if (is.character(remote)) {
-      auth.user <- NULL
-      auth.pwd <- NULL
-      if (file.exists("~/.hmr.json")) {
-        cfg <- rjson::fromJSON(paste(readLines("~/.hmr.json"), collapse='\n'))
-        if (length(cfg)) {
-          hc <-cfg[[remote, exact=TRUE]]
-          if (length(hc)) {
-            host <- hc$host
-            port <- hc$port
-            user <- hc$user
-            tls <- hc$tls
-            pwd <- hc$password
-            if (is.null(port)) port <- 6311L
-            if (is.null(tls)) tls <- FALSE
-            remote <- RSclient::RS.connect(host, port, tls)
-            on.exit(RSclient::RS.close(remote))
-            if (!is.null(user))
-              RSclient::RS.login(remote, user, pwd, authkey=RSclient::RS.authkey())
-          } else if (length(hc <- cfg[["*", exact=TRUE]])) {
-            auth.user <- hc$user
-            auth.pwd <- hc$password
-          }
-        }
-      } else {
-        remote <- RSclient::RS.connect(remote)
-        on.exit(RSclient::RS.close(remote))
-        if (!is.null(auth.user))
-          RSclient::RS.login(remote, auth.user, auth.pwd, authkey=RSclient::RS.authkey())
-      }
-    }
-    if (!inherits(remote, "RserveConnection"))
-      stop("remote must be an RserveConnection or a string denoting a server to connect to")
-    l <- list(stream=readBin("stream.RData", raw(), file.info("stream.RData")$size),
-              hargs=hargs, hcfg=cfg)
-    RSclient::RS.eval(remote, as.call(list(quote(hmr:::.remote.cmd), l)), wait=wait, lazy=FALSE)
-  }
-  output
-}
 
-.remote.cmd <- function(args) {
-  f <- tempfile("hmr-stream-dir")
-  dir.create(f,, TRUE, "0700")
-  owd <- getwd()
-  on.exit(setwd(owd))
-  setwd(f)
-  writeBin(args$stream, "stream.RData")
-  hargs <- args$hargs
-
-  h <- .hadoop.detect()
-  if (!length(h$sj))
-    stop("Cannot find streaming JAR - set HADOOP_STREAMING_JAR or make sure you have a complete Hadoop installation")
-  h0 <- paste(shQuote(h$hcmd), args$hcfg, "jar", shQuote(h$sj[1L]))
+  ## FIXME: to support Hadoop 1 it woudl have to be rmr?
+  if (overwrite) system(paste(shQuote(hcmd), "fs", "-rm", "-r", shQuote(output)), ignore.stdout = TRUE, ignore.stderr = FALSE)
+  h0 <- paste(shQuote(hcmd), cfg, "jar", shQuote(sj[1L]))
   cmd <- paste(h0, hargs)
-  ## FIXME: we could pass-through wait so that we get notified if the submission fails
-  ##        but it may be slow if stream.RData is huge
-  system(cmd)
+  system(cmd, wait=wait, ignore.stdout = !verbose, ignore.stderr = !verbose)
+
+  output
 }
